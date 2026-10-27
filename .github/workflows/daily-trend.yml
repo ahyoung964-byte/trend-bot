@@ -30,3 +30,14 @@ jobs:
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python main.py
+
+      - name: Generate HTML report
+        run: python report_html.py && cp index.html index.html.bak || true && mv report_*.html index.html
+
+      - name: Commit & push report
+        run: |
+          git config user.name "trend-bot"
+          git config user.email "actions@github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "report: $(date +'%Y-%m-%d')"
+          git push
