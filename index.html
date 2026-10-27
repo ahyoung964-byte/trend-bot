@@ -5,152 +5,296 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>트렌드 리포트 · 2026-10-27</title>
 <style>
-  body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;max-width:860px;margin:0 auto;padding:24px;color:#1a1a2e;background:#f8f9fa}
-  h1{font-size:1.4rem;margin-bottom:4px}
-  .date{color:#888;font-size:.85rem}
-  table{width:100%;border-collapse:collapse;margin:20px 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.08)}
-  th{background:#4f46e5;color:#fff;padding:10px 14px;text-align:left;font-size:.85rem}
-  td{padding:9px 14px;border-bottom:1px solid #f0f0f0;font-size:.9rem}
-  tr:last-child td{border-bottom:none}
-  tr:hover td{background:#f5f3ff}
-  .kw{font-weight:600;color:#4f46e5}
-  .num{text-align:right;font-variant-numeric:tabular-nums}
-  h2{margin-top:32px;font-size:1.1rem}
-  ul{padding-left:18px;line-height:1.9}
-  li{font-size:.88rem}
-  .src{color:#6366f1;font-weight:600}
-  a{color:#1a1a2e;text-decoration:none}
-  a:hover{text-decoration:underline;color:#4f46e5}
-  .date{margin-left:6px;color:#aaa;font-size:.78rem}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.6}
+.header{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);color:#fff;padding:28px 24px 24px}
+.header h1{font-size:1.3rem;font-weight:700;letter-spacing:-.3px}
+.header .sub{opacity:.75;font-size:.85rem;margin-top:4px}
+.stats{display:flex;gap:20px;margin-top:16px}
+.stat{background:rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;text-align:center}
+.stat .val{font-size:1.4rem;font-weight:700}
+.stat .lbl{font-size:.72rem;opacity:.8}
+.container{max-width:900px;margin:0 auto;padding:20px 16px}
+section{margin-bottom:28px}
+h2{font-size:1rem;font-weight:700;color:#475569;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+
+/* 인사이트 카드 */
+.ins-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.ins-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.ins-kw{font-size:1.05rem;font-weight:700;margin-bottom:4px}
+.ins-meta{font-size:.78rem;color:#94a3b8;margin-bottom:8px}
+.ins-heads{padding-left:16px;font-size:.82rem;color:#475569;line-height:1.8}
+.ins-heads li{margin-bottom:2px}
+
+/* AI 인사이트 */
+.ai-box{background:#fdf4ff;border:1px solid #e9d5ff;border-radius:12px;padding:18px;margin-bottom:20px}
+.ai-label{font-size:.78rem;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.ai-pre{font-family:inherit;font-size:.88rem;white-space:pre-wrap;color:#3b0764;line-height:1.8}
+
+/* 랭킹 테이블 */
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+th{background:#f8fafc;color:#64748b;padding:10px 14px;font-size:.78rem;font-weight:600;text-align:left;border-bottom:1px solid #e2e8f0;text-transform:uppercase;letter-spacing:.4px}
+td{padding:11px 14px;border-bottom:1px solid #f1f5f9;font-size:.9rem}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbff}
+.rank{color:#94a3b8;font-size:.8rem;width:36px}
+.kw{font-weight:700}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.score{font-weight:700;font-size:1rem}
+.up{color:#22c55e}.dn{color:#ef4444}
+
+/* 기사 목록 */
+details{background:#fff;border-radius:12px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.src-summary{padding:12px 16px;font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:8px;list-style:none;color:#334155}
+.src-summary::-webkit-details-marker{display:none}
+.src-summary::before{content:'▶';font-size:.65rem;color:#94a3b8;transition:.2s}
+details[open] .src-summary::before{content:'▼'}
+.cnt{background:#e0e7ff;color:#6366f1;border-radius:20px;padding:2px 10px;font-size:.75rem;font-weight:600;margin-left:auto}
+.art-list{list-style:none;border-top:1px solid #f1f5f9}
+.art-list li{padding:9px 16px;border-bottom:1px solid #f8fafc;font-size:.85rem;display:flex;align-items:baseline;gap:8px}
+.art-list li:last-child{border-bottom:none}
+.art-list a{color:#334155;text-decoration:none;flex:1}
+.art-list a:hover{color:#6366f1}
+.adate{flex-shrink:0;color:#cbd5e1;font-size:.75rem}
 </style>
 </head>
 <body>
-<h1>트렌드 수집봇 리포트</h1>
-<p class="date">2026-10-27 · RSS 179건 수집</p>
+<div class="header">
+  <h1>트렌드 수집봇 리포트</h1>
+  <div class="sub">2026-10-27</div>
+  <div class="stats">
+    <div class="stat"><div class="val">179</div><div class="lbl">수집 기사</div></div>
+    <div class="stat"><div class="val">8</div><div class="lbl">추적 키워드</div></div>
+    <div class="stat"><div class="val">39</div><div class="lbl">키워드 언급</div></div>
+  </div>
+</div>
 
-<h2>키워드 점수</h2>
-<table>
-<tr><th>키워드</th><th>점수</th><th>네이버검색량</th><th>전주대비</th><th>유튜브속도</th><th>RSS언급</th></tr>
+<div class="container">
 
-        <tr>
-          <td class="kw">AI</td>
-          <td class="num">5.0</td>
-          <td class="num">0.0</td>
-          <td class="num">+0.0%</td>
-          <td class="num">0</td>
-          <td class="num">30</td>
-        </tr>
-        <tr>
-          <td class="kw">아이폰</td>
-          <td class="num">0.8</td>
-          <td class="num">0.0</td>
-          <td class="num">+0.0%</td>
-          <td class="num">0</td>
-          <td class="num">5</td>
-        </tr>
-        <tr>
-          <td class="kw">다이어트</td>
-          <td class="num">0.3</td>
-          <td class="num">0.0</td>
-          <td class="num">+0.0%</td>
-          <td class="num">0</td>
-          <td class="num">2</td>
-        </tr>
-        <tr>
-          <td class="kw">스타트업</td>
-          <td class="num">0.3</td>
-          <td class="num">0.0</td>
-          <td class="num">+0.0%</td>
-          <td class="num">0</td>
-          <td class="num">2</td>
-        </tr>
-        <tr>
-          <td class="kw">홈트</td>
-          <td class="num">0.0</td>
-          <td class="num">0.0</td>
-          <td class="num">+0.0%</td>
-          <td class="num">0</td>
-          <td class="num">0</td>
-        </tr>
-        <tr>
-          <td class="kw">런닝</td>
-          <td class="num">0.0</td>
-          <td class="num">0.0</td>
-          <td class="num">+0.0%</td>
-          <td class="num">0</td>
-          <td class="num">0</td>
-        </tr>
-        <tr>
-          <td class="kw">탕후루</td>
-          <td class="num">0.0</td>
-          <td class="num">0.0</td>
-          <td class="num">+0.0%</td>
-          <td class="num">0</td>
-          <td class="num">0</td>
-        </tr>
-        <tr>
-          <td class="kw">제로음료</td>
-          <td class="num">0.0</td>
-          <td class="num">0.0</td>
-          <td class="num">+0.0%</td>
-          <td class="num">0</td>
-          <td class="num">0</td>
-        </tr>
-</table>
 
-<h2>수집 기사 (최근 50건)</h2>
-<ul>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261026161754" target="_blank">팀코어, '2026 로보월드' 참가…포스뱅크 공동개발 'TIMBOT-S' 출품</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027093604" target="_blank">美 OCC, 지역은행에 "스테이블코인 시장 진출해야" 촉구</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027085309" target="_blank">흥행도 구조조정 못 막았다…서커펀치 감원</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027093239" target="_blank">GS25 김밥·도시락에 지역 쌀 담는다…내년 1만2000톤 공급 약정</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027094633" target="_blank">한국GM 노사, 인평자동차고와 산학협력…자동차 인재 키운다</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027094150" target="_blank">미니, 세계 첫 고성능 'JCW 개러지' 분당서 연다</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027090308" target="_blank">"정보 유출 막아라"…일본, 관계장관회의 소집</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027084418" target="_blank">라쿠텐트래블, 개인정보 354만건 유출 가능성…"부정 접속 확인"</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027093208" target="_blank">하이브, 글로벌 레이블 지원 조직 통합…대표에 후안 아레나스 선임</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027093350" target="_blank">'공포의 외인구단' 이현세, 은관문화훈장 수훈</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027084704" target="_blank">[AI는 지금] MS, 전체 직원 27% 대상 자발적 퇴직 시행…"AI 투자 부담"</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027091642" target="_blank">비빔밥을 한 손에…노브랜드 버거, ‘진짜 비빔밥 버거’ 출시</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027093056" target="_blank">니콘이미징코리아, 쿨샷 프로Ⅲ 스테빌라이즈드 블랙 출시</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027092912" target="_blank">문체부, 국악방송·전통공연예술진흥재단 통합 추진</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027092658" target="_blank">플레이디, 구글 AI 마케팅 전문가 콘테스트 수상</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027085025" target="_blank">삼성월렛 머니, 중국 결제 지원</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027092437" target="_blank">인스타카트, AI 쇼핑카트 사업 접는다…도어대시 매각설 속 사업 재편</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027091535" target="_blank">"AI는 통제 어려운 10대"…오라클, DB에 보안 내장</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027084856" target="_blank">9900만 년 전 도마뱀도 위험하면 꼬리를 끊었다</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027085822" target="_blank">간식부터 산책용품까지 한곳에…CU, 반려동물 특화점 운영</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027090035" target="_blank">"AI가 나만 비싸게 받나"…美서 불안 확산</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027091113" target="_blank">딜, 글로벌 인력 운영 특화 LLM ‘판게아’ 공개…AI 연구소 ‘에멧’ 신설</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027084617" target="_blank">민테크 구축 '전기차 사용후 배터리 자동평가센터' 운영 개시</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027050707" target="_blank">야당·노조, MBK 겨냥 사모펀드 규제 촉구</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027090124" target="_blank">시디즈 "매장서 앉아보고 온라인 혜택으로 결제하세요”</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027082849" target="_blank">150만개 상품 속 ‘내 팀 코디’ 찾는다…파나틱스, 오픈AI와 맞손</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027083202" target="_blank">애플 "아이폰 듀오 화면 균열, 일부 기기 문제"</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261027085344" target="_blank">중국차, 유럽서 일본차 추월…3분기 점유율 역전</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[ZDNet Korea]</span> <a href="https://zdnet.co.kr/view/?no=20261026225241" target="_blank">스물셋 복학생 창업가의 "나의 펀딩 도전기"</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172843" target="_blank">KT, 새 AX 플랫폼 ‘토큰팩토리’ 공개</a> <span class="date">2026-10-27</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172855" target="_blank">[개장] 코스피, 4% 껑충… 美 AI·반도체 반등에 5700선 회복</a> <span class="date">2026-10-27</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172838" target="_blank">삼성월렛 머니, 해외 결제 서비스 위한 업무 협약</a> <span class="date">2026-10-27</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172846" target="_blank">삼성카드, 3Q 누적 순익 4503억 전년比 9.5% 줄어</a> <span class="date">2026-10-27</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172837" target="_blank">애플 “듀오 화면 결함 인정…제품 교체”</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172791" target="_blank">고소해도 계속되는 ‘쿠팡 납치광고’… 플랫폼 관리 책임 도마에</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172835" target="_blank">메타, AI 투자 위해 950억달러 조달… 주가 1.9% 하락</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172789" target="_blank">지배력 키우는 김동선…차입금·9000억 재건축은 과제</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172705" target="_blank">칩플레이션에 갇힌 전자·부품업계…‘원가 경쟁력’ 확보 사활</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172834" target="_blank">앤트로픽 IPO 시동… 몸값 최대 2조달러</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172833" target="_blank">나스닥 0.8% 반등… 앤트로픽 IPO 기대에 반도체주 강세</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172828" target="_blank">로봇 밀도 세계 1위? 피지컬 AI 인재는 준비됐나 [이승현의 AI 네이티브]</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172785" target="_blank">솔리다임 IPO 접은 SK하이닉스…투자 셈법 복잡</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172774" target="_blank">배경훈 부총리가 보안을 대하는 태도 [줌인IT]</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172829" target="_blank">앤트로픽 클로드, 美 조지아주 선거 데이터 무단 접근</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172825" target="_blank">[인사] 한국은행</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172826" target="_blank">KB국민은행, 해킹 정보 유출 2091명 추가 확인</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172827" target="_blank">현대차 수소차 5만대 돌파…기아도 2029년 ‘수소 카니발’로 합류</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172823" target="_blank">아우디, 美에 첫 현지 생산 시설 세운다… 5.3조원 투자</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172816" target="_blank">트럼프 “美 이용하는 기업, 관세 50%까지 인상”</a> <span class="date">2026-10-26</span></li>
-<li><span class="src">[IT조선]</span> <a href="https://it.chosun.com/news/articleView.html?idxno=2023092172820" target="_blank">한은, 신임 부총재보에 최창호 통화정책국장 임명</a> <span class="date">2026-10-26</span></li>
 
+<section>
+  <h2>키워드별 인사이트</h2>
+  <div class="ins-grid">
+        <div class="ins-card">
+          <div class="ins-kw" style="color:#f97316">AI</div>
+          <div class="ins-meta">IT조선 등 4개 매체, 30건</div>
+          <ul class="ins-heads"><li>팀코어, '2026 로보월드' 참가…포스뱅크 공동개발 'TIMBOT-S' 출품</li><li>[AI는 지금] MS, 전체 직원 27% 대상 자발적 퇴직 시행…"AI 투자 부담"</li><li>플레이디, 구글 AI 마케팅 전문가 콘테스트 수상</li></ul>
+        </div>
+        <div class="ins-card">
+          <div class="ins-kw" style="color:#eab308">아이폰</div>
+          <div class="ins-meta">IT조선 등 2개 매체, 5건</div>
+          <ul class="ins-heads"><li>"AI는 통제 어려운 10대"…오라클, DB에 보안 내장</li><li>애플 "아이폰 듀오 화면 균열, 일부 기기 문제"</li><li>애플 “듀오 화면 결함 인정…제품 교체”</li></ul>
+        </div>
+        <div class="ins-card">
+          <div class="ins-kw" style="color:#eab308">다이어트</div>
+          <div class="ins-meta">헬스조선 등 1개 매체, 2건</div>
+          <ul class="ins-heads"><li>“약 안 쓰고 32kg 감량” 50대 여성… 아침에 챙겨 먹은 음식, 뭐야?</li><li>“살 빠지는 음식”… 김신영이 닭 가슴살 대신 추천한 ‘고단백 식품’</li></ul>
+        </div>
+        <div class="ins-card">
+          <div class="ins-kw" style="color:#eab308">스타트업</div>
+          <div class="ins-meta">ZDNet Korea 등 2개 매체, 2건</div>
+          <ul class="ins-heads"><li>스물셋 복학생 창업가의 "나의 펀딩 도전기"</li><li>서울 AI 허브, 2027년 ‘베이비유니콘센터’ 조성 추진</li></ul>
+        </div></div>
+</section>
+
+<section>
+  <h2>키워드 랭킹</h2>
+  <table>
+    <tr><th>#</th><th>키워드</th><th style="text-align:right">점수</th><th>RSS 언급</th><th style="text-align:right">네이버</th><th style="text-align:right">전주대비</th></tr>
+    
+        <tr>
+          <td class="rank">#1</td>
+          <td class="kw" style="color:#f97316">AI</td>
+          <td class="num score" style="color:#f97316">5.0</td>
+          <td><div style="background:#e0e7ff;border-radius:4px;height:8px;width:120px;display:inline-block;vertical-align:middle"><div style="background:#6366f1;border-radius:4px;height:8px;width:120px"></div></div> <span class="num">30</span></td>
+          <td class="num">0.0</td>
+          <td class="num delta ">+0.0%</td>
+        </tr>
+        <tr>
+          <td class="rank">#2</td>
+          <td class="kw" style="color:#eab308">아이폰</td>
+          <td class="num score" style="color:#eab308">0.8</td>
+          <td><div style="background:#e0e7ff;border-radius:4px;height:8px;width:120px;display:inline-block;vertical-align:middle"><div style="background:#6366f1;border-radius:4px;height:8px;width:20px"></div></div> <span class="num">5</span></td>
+          <td class="num">0.0</td>
+          <td class="num delta ">+0.0%</td>
+        </tr>
+        <tr>
+          <td class="rank">#3</td>
+          <td class="kw" style="color:#eab308">다이어트</td>
+          <td class="num score" style="color:#eab308">0.3</td>
+          <td><div style="background:#e0e7ff;border-radius:4px;height:8px;width:120px;display:inline-block;vertical-align:middle"><div style="background:#6366f1;border-radius:4px;height:8px;width:8px"></div></div> <span class="num">2</span></td>
+          <td class="num">0.0</td>
+          <td class="num delta ">+0.0%</td>
+        </tr>
+        <tr>
+          <td class="rank">#4</td>
+          <td class="kw" style="color:#eab308">스타트업</td>
+          <td class="num score" style="color:#eab308">0.3</td>
+          <td><div style="background:#e0e7ff;border-radius:4px;height:8px;width:120px;display:inline-block;vertical-align:middle"><div style="background:#6366f1;border-radius:4px;height:8px;width:8px"></div></div> <span class="num">2</span></td>
+          <td class="num">0.0</td>
+          <td class="num delta ">+0.0%</td>
+        </tr>
+        <tr>
+          <td class="rank">#5</td>
+          <td class="kw" style="color:#94a3b8">홈트</td>
+          <td class="num score" style="color:#94a3b8">0.0</td>
+          <td><div style="background:#e0e7ff;border-radius:4px;height:8px;width:120px;display:inline-block;vertical-align:middle"><div style="background:#6366f1;border-radius:4px;height:8px;width:0px"></div></div> <span class="num">0</span></td>
+          <td class="num">0.0</td>
+          <td class="num delta ">+0.0%</td>
+        </tr>
+        <tr>
+          <td class="rank">#6</td>
+          <td class="kw" style="color:#94a3b8">런닝</td>
+          <td class="num score" style="color:#94a3b8">0.0</td>
+          <td><div style="background:#e0e7ff;border-radius:4px;height:8px;width:120px;display:inline-block;vertical-align:middle"><div style="background:#6366f1;border-radius:4px;height:8px;width:0px"></div></div> <span class="num">0</span></td>
+          <td class="num">0.0</td>
+          <td class="num delta ">+0.0%</td>
+        </tr>
+        <tr>
+          <td class="rank">#7</td>
+          <td class="kw" style="color:#94a3b8">탕후루</td>
+          <td class="num score" style="color:#94a3b8">0.0</td>
+          <td><div style="background:#e0e7ff;border-radius:4px;height:8px;width:120px;display:inline-block;vertical-align:middle"><div style="background:#6366f1;border-radius:4px;height:8px;width:0px"></div></div> <span class="num">0</span></td>
+          <td class="num">0.0</td>
+          <td class="num delta ">+0.0%</td>
+        </tr>
+        <tr>
+          <td class="rank">#8</td>
+          <td class="kw" style="color:#94a3b8">제로음료</td>
+          <td class="num score" style="color:#94a3b8">0.0</td>
+          <td><div style="background:#e0e7ff;border-radius:4px;height:8px;width:120px;display:inline-block;vertical-align:middle"><div style="background:#6366f1;border-radius:4px;height:8px;width:0px"></div></div> <span class="num">0</span></td>
+          <td class="num">0.0</td>
+          <td class="num delta ">+0.0%</td>
+        </tr>
+  </table>
+</section>
+
+<section>
+  <h2>수집 기사 (179건)</h2>
+  
+        <details open>
+          <summary class="src-summary">IT조선 <span class="cnt">50건</span></summary>
+          <ul class="art-list"><li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172843" target="_blank">KT, 새 AX 플랫폼 ‘토큰팩토리’ 공개</a><span class="adate">2026-10-27</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172855" target="_blank">[개장] 코스피, 4% 껑충… 美 AI·반도체 반등에 5700선 회복</a><span class="adate">2026-10-27</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172838" target="_blank">삼성월렛 머니, 해외 결제 서비스 위한 업무 협약</a><span class="adate">2026-10-27</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172846" target="_blank">삼성카드, 3Q 누적 순익 4503억 전년比 9.5% 줄어</a><span class="adate">2026-10-27</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172837" target="_blank">애플 “듀오 화면 결함 인정…제품 교체”</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172791" target="_blank">고소해도 계속되는 ‘쿠팡 납치광고’… 플랫폼 관리 책임 도마에</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172835" target="_blank">메타, AI 투자 위해 950억달러 조달… 주가 1.9% 하락</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172789" target="_blank">지배력 키우는 김동선…차입금·9000억 재건축은 과제</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172705" target="_blank">칩플레이션에 갇힌 전자·부품업계…‘원가 경쟁력’ 확보 사활</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172834" target="_blank">앤트로픽 IPO 시동… 몸값 최대 2조달러</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172833" target="_blank">나스닥 0.8% 반등… 앤트로픽 IPO 기대에 반도체주 강세</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172828" target="_blank">로봇 밀도 세계 1위? 피지컬 AI 인재는 준비됐나 [이승현의 AI 네이티브]</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172785" target="_blank">솔리다임 IPO 접은 SK하이닉스…투자 셈법 복잡</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172774" target="_blank">배경훈 부총리가 보안을 대하는 태도 [줌인IT]</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172829" target="_blank">앤트로픽 클로드, 美 조지아주 선거 데이터 무단 접근</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172825" target="_blank">[인사] 한국은행</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172826" target="_blank">KB국민은행, 해킹 정보 유출 2091명 추가 확인</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172827" target="_blank">현대차 수소차 5만대 돌파…기아도 2029년 ‘수소 카니발’로 합류</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172823" target="_blank">아우디, 美에 첫 현지 생산 시설 세운다… 5.3조원 투자</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://it.chosun.com/news/articleView.html?idxno=2023092172816" target="_blank">트럼프 “美 이용하는 기업, 관세 50%까지 인상”</a><span class="adate">2026-10-26</span></li>
 </ul>
+        </details>
+        <details open>
+          <summary class="src-summary">헬스조선 <span class="cnt">50건</span></summary>
+          <ul class="art-list"><li><a href="https://health.chosun.com/site/data/html_dir/2026/10/27/2026102701097.html" target="_blank">한국룬드벡, 한울정신건강복지재단에 기부금 전달</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602771.html" target="_blank">온도·습도에 약한 약… 절대 보관하면 안 되는 곳</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/27/2026102700984.html" target="_blank">한국오가논, 약대생 인턴십 성료… 15주간 제약산업 현장 경험</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602915.html" target="_blank">‘약 어떻게 먹는지’ 3명 중 1명은 AI에 질문… “부작용 우려”</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602759.html" target="_blank">궤양성 대장염, 증상 사라졌다… 그래도 치료 멈추면 안 돼</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602683.html" target="_blank">“암에 걸리면 삶을 바꿔야 할까?” 담낭암 4기 환자가 7년째 지켜온 일상</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602969.html" target="_blank">의약품 원료 절반이 중국·인도産… “국산 우대 정책 실효성 의문”</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602654.html" target="_blank">“클렌저 안 쓰고 찬물로만”… 75세 윤미라의 아침 세수법, 무슨 효과?</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602585.html" target="_blank">아침에 유독 심한 재채기, 원인은 ‘침대’에 있었다</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602278.html" target="_blank">진정한 ‘겨울왕국’을 찾아서… 홋카이도 vs 도호쿠</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602706.html" target="_blank">아침에 먹고 남은 사과, 갈색으로 안 변하게 보관하는 법</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602442.html" target="_blank">“변비 완화에 도움”… 손태영 쓴다는 ‘기구’, 뭐야?</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602645.html" target="_blank">“혈압 낮추는 효과”… 입에서 톡톡 터지는 ‘그린 캐비어’, 뭐지?</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602548.html" target="_blank">“혈당 급격히 오른다”… 영양사가 꼽은 ‘아침에 주의해야 할 빵’</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602936.html" target="_blank">“건강하려고 현미 먹었는데”… 오히려 ‘흰밥’ 먹는 게 나은 순간 셋</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102601757.html" target="_blank">“살 지루하게 빼지 않아”… ‘32kg 감량’ 홍지민, 새로 도전한 운동</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602982.html" target="_blank">소시지 속 ‘식품첨가물’ 없애기 위해, 최소로 삶아야 하는 시간</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602532.html" target="_blank">“신장에 돌 쌓인다”… 비뇨의학과 의사들 꼽은 ‘위험한 음료’ 한 가지</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602912.html" target="_blank">“간 혹사하는 습관”… 간 이식하는 의사가 지적한 ‘4가지’</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://health.chosun.com/site/data/html_dir/2026/10/26/2026102602543.html" target="_blank">“약 안 쓰고 32kg 감량” 50대 여성… 아침에 챙겨 먹은 음식, 뭐야?</a><span class="adate">2026-10-26</span></li>
+</ul>
+        </details>
+        <details open>
+          <summary class="src-summary">한겨레 문화 <span class="cnt">30건</span></summary>
+          <ul class="art-list"><li><a href="https://www.hani.co.kr/arti/culture/book/1284305.html" target="_blank">제1회 김학철문학상 대상 황정은…시상식 내달 4일</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/culture_general/1284262.html" target="_blank">5·18 다룬 ‘닥터X’에 방영 중단 청원까지…“창작 자유 위축될라”</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/music/1284257.html" target="_blank">“이것도 연극인가?” 80분간 어둠 속 빛과 소리…연극의 틀 흔든 92살 김우옥</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/culture_general/1284166.html" target="_blank">500명이 지닌 40일간의 비밀, 수능출제본부에서 무슨 일이?</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/music/1284137.html" target="_blank">한국 재즈 100년의 항해…한강서 ‘물빛 재즈 크루즈’</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/culture_general/1284135.html" target="_blank">전도연, 한국 첫 오스카 주연상 후보 물망…“파고드는 연기”</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/book/1284067.html" target="_blank">“교육은 넓은 의미의 돌봄…AI 시대, 돌봄교육 더 중요”</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/culture_general/1284009.html" target="_blank">메스 든 천재 의사 ‘닥터X’ 사이다 처방 통했다</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/culture_general/1283984.html" target="_blank">앤드리아 방 감독 “뿌리 언어 잃으면 죄책감과 수치심 느껴”</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/music/1283979.html" target="_blank">30여년 나무만 깎은 한선현 조각가, 근작전 열었다</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/music/1283971.html" target="_blank">깊어가는 가을, 원폭 피해자의 희망을 노래하다</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/culture_general/1283969.html" target="_blank">악당과 혁신의 두 얼굴 머스크…좋아해, 말아? [.txt]</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/book/1283968.html" target="_blank">대통령은 SNS를 끄고 피해자의 책을 읽으시라 [.txt]</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/book/1283967.html" target="_blank">내 손때 묻은 책, 엄마에게 보여주기 싫어요…“제가 별종인가요?” [.txt]</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/book/1283938.html" target="_blank">내 사랑은 펼쳐지기만 해요, 도무지 접을 수 없어요 [.txt]</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/music/1283937.html" target="_blank">‘7번 국도’ 들으며 유영국 작가가 뛰놀던 그 바다로 [.txt]</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/book/1283936.html" target="_blank">오늘도 냠냠냠: 서울 서소문동 진주회관 [.txt]</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/religion/1283933.html" target="_blank">산재로 양손 잃고 독학사 수석 뒤…‘조선 운영 매뉴얼’ 16년 만에 완역 [.txt]</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/book/1283932.html" target="_blank">한국 문학의 목격자 최재봉…아름답고 따뜻했던 은퇴 파티 [.txt]</a><span class="adate"></span></li>
+<li><a href="https://www.hani.co.kr/arti/culture/book/1283924.html" target="_blank">다우키움그룹, 중앙일보 이어 ‘1위 출판’ 문학동네도 품나…우선협상대상자로</a><span class="adate"></span></li>
+</ul>
+        </details>
+        <details open>
+          <summary class="src-summary">ZDNet Korea <span class="cnt">29건</span></summary>
+          <ul class="art-list"><li><a href="https://zdnet.co.kr/view/?no=20261026161754" target="_blank">팀코어, '2026 로보월드' 참가…포스뱅크 공동개발 'TIMBOT-S' 출품</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027093604" target="_blank">美 OCC, 지역은행에 "스테이블코인 시장 진출해야" 촉구</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027085309" target="_blank">흥행도 구조조정 못 막았다…서커펀치 감원</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027093239" target="_blank">GS25 김밥·도시락에 지역 쌀 담는다…내년 1만2000톤 공급 약정</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027094633" target="_blank">한국GM 노사, 인평자동차고와 산학협력…자동차 인재 키운다</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027094150" target="_blank">미니, 세계 첫 고성능 'JCW 개러지' 분당서 연다</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027090308" target="_blank">"정보 유출 막아라"…일본, 관계장관회의 소집</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027084418" target="_blank">라쿠텐트래블, 개인정보 354만건 유출 가능성…"부정 접속 확인"</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027093208" target="_blank">하이브, 글로벌 레이블 지원 조직 통합…대표에 후안 아레나스 선임</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027093350" target="_blank">'공포의 외인구단' 이현세, 은관문화훈장 수훈</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027084704" target="_blank">[AI는 지금] MS, 전체 직원 27% 대상 자발적 퇴직 시행…"AI 투자 부담"</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027091642" target="_blank">비빔밥을 한 손에…노브랜드 버거, ‘진짜 비빔밥 버거’ 출시</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027093056" target="_blank">니콘이미징코리아, 쿨샷 프로Ⅲ 스테빌라이즈드 블랙 출시</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027092912" target="_blank">문체부, 국악방송·전통공연예술진흥재단 통합 추진</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027092658" target="_blank">플레이디, 구글 AI 마케팅 전문가 콘테스트 수상</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027085025" target="_blank">삼성월렛 머니, 중국 결제 지원</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027092437" target="_blank">인스타카트, AI 쇼핑카트 사업 접는다…도어대시 매각설 속 사업 재편</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027091535" target="_blank">"AI는 통제 어려운 10대"…오라클, DB에 보안 내장</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027084856" target="_blank">9900만 년 전 도마뱀도 위험하면 꼬리를 끊었다</a><span class="adate">2026-10-26</span></li>
+<li><a href="https://zdnet.co.kr/view/?no=20261027085822" target="_blank">간식부터 산책용품까지 한곳에…CU, 반려동물 특화점 운영</a><span class="adate">2026-10-26</span></li>
+</ul>
+        </details>
+        <details open>
+          <summary class="src-summary">세계일보 라이프 <span class="cnt">20건</span></summary>
+          <ul class="art-list"><li><a href="https://www.segye.com/newsView/20261027502219" target="_blank">“적군도 부상하면 한 인간, 봉사는 사람을 차별하지 않는 것”… 적십자 봉사 60년 맞은 박희 전 대림대 교수</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261027502124" target="_blank">발달장애 연주자들의 20년 도전…얍 판 츠베덴과 기념 무대</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261027502021" target="_blank">꿈은 기다려주지 않는다…돌로미티 15일, 여덟 친구의 산행</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261027502129" target="_blank">전국 대체로 맑은 가운데 강풍…낮 최고 15~20도 [오늘날씨]</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026515631" target="_blank">‘옥자’서 ‘오겜’까지… 600억 시간의 신화 [심층기획-넷플릭스 상륙 10년 ‘명암’]</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026515378" target="_blank">“넷플서 뜨면 바로 세계 스타”… 확바뀐 성공 공식 [심층기획-넷플릭스 상륙 10년 ‘명암’]</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026515386" target="_blank">K드라마에 울고, 예능에 웃고… 글로벌 ‘新한류 신드롬’ [심층기획-넷플릭스 상륙 10년 ‘명암’]</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261027500380" target="_blank">세계 ‘어디’서든, 어떤 ‘말’로든 ‘피지컬:100’ 볼 수 있는 세상…넷플릭스가 허문 K콘텐츠 국경선 [심층기획-넷플릭스 상륙 10년 ‘명암’]</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026513985" target="_blank">박성혁 한국관광공사 사장 “韓 관광 경쟁력은 ‘K-라이프’… 연 3000만명 방한 목표 이룰 것” [세계초대석]</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026509496" target="_blank">“식탁 닦다 세균 바른다”… 변기보다 찝찝한 ‘주방 행주’의 배신 [헬스&라이프]</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026517606" target="_blank">수십억 러브콜 단칼에 잘라낸 심은하, 25년째 ‘생활인’ 고집하는 이유</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261027500992" target="_blank">혈압약 먹다 두통약 한 알 더했을 뿐인데…콩팥 손상 위험 커진다</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026514222" target="_blank">[재미로 보는 오늘의 운세] 10월 27일 (화요일) 63년생 매매나 투자에 길사가 온다</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026513533" target="_blank">돌싱 남성, 재혼 뒤 바라는 관계는 ‘후궁’</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026514109" target="_blank">조선시대 불교문화유산 4건 보물 됐다</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026514098" target="_blank">조성진·빈 필하모닉 ‘환상의 호흡’ 선사</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026514199" target="_blank">인간의 정체성 끝없는 탐구… 예술로 ‘나’ 찾다</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026515506" target="_blank">TBS 신임 대표이사 한용길</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026515514" target="_blank">윤동주·김남조 시인 금관문화훈장</a><span class="adate"></span></li>
+<li><a href="https://www.segye.com/newsView/20261026516179" target="_blank">‘국제법, 대포만 못하다’…안중근 의사 유묵 ‘만국공법불여대포’ 첫 공개</a><span class="adate"></span></li>
+</ul>
+        </details>
+</section>
+
+</div>
 </body>
 </html>
