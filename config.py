@@ -1,39 +1,40 @@
-"""트렌드 수집봇 설정.
+"""트렌드 수집봇 설정."""
 
-여기만 고치면 됩니다. 키워드/피드를 감독님 니치로 바꾸세요.
-(기본값은 가이드 예시인 한국 마케팅·트렌드 니치로 세팅해 두었습니다.)
-"""
-
-# 네이버 데이터랩으로 검색량 추이를 볼 키워드.
-# 그룹당 여러 유의어를 묶으면 합산 추세로 잡힌다.
-KEYWORD_GROUPS = [
-    # 라이프스타일
-    {"name": "다이어트", "keywords": ["다이어트", "체중감량", "살빼기"]},
-    {"name": "홈트", "keywords": ["홈트", "홈트레이닝"]},
-    {"name": "런닝", "keywords": ["러닝", "달리기", "마라톤"]},
-    {"name": "탕후루", "keywords": ["탕후루"]},
-    {"name": "제로음료", "keywords": ["제로콜라", "제로음료", "제로칼로리"]},
-    # IT·테크
-    {"name": "AI", "keywords": ["인공지능", "AI", "ChatGPT", "챗GPT", "클로드", "제미나이"]},
-    {"name": "아이폰", "keywords": ["아이폰", "iPhone", "애플"]},
-    {"name": "스타트업", "keywords": ["스타트업", "창업", "유니콘"]},
-]
-
-# 유튜브 급상승 감지에 쓸 검색 키워드(데이터랩 그룹명 재사용).
-YOUTUBE_QUERIES = [g["name"] for g in KEYWORD_GROUPS]
-
-# RSS 피드 — 버티컬 미디어/브랜드 블로그 신규글.
-# ⚠️ 미디어사가 주소를 바꾸면 수집이 끊긴다. 월 1회 URL 점검 권장(가이드 6장).
+# ── RSS 피드 ──────────────────────────────────────────────────────────
 RSS_FEEDS = [
     # IT·테크
-    {"source": "ZDNet Korea", "url": "https://feeds.feedburner.com/zdkorea"},
-    {"source": "IT조선", "url": "https://it.chosun.com/rss/allArticle.xml"},
-    # 라이프스타일·트렌드
-    {"source": "한겨레 문화", "url": "https://www.hani.co.kr/rss/culture/"},
-    {"source": "헬스조선", "url": "https://health.chosun.com/site/data/rss/rss.xml"},
-    {"source": "세계일보 라이프", "url": "https://www.segye.com/Articles/RSSList/segye_culture.xml"},
-    {"source": "경향 라이프", "url": "https://www.khan.co.kr/rss/rssdata/kh_life.xml"},
+    {"source": "ZDNet Korea",   "url": "https://feeds.feedburner.com/zdkorea"},
+    {"source": "IT조선",         "url": "https://it.chosun.com/rss/allArticle.xml"},
+    # 문화·라이프
+    {"source": "한겨레 문화",    "url": "https://www.hani.co.kr/rss/culture/"},
+    {"source": "한겨레 사회",    "url": "https://www.hani.co.kr/rss/society/"},
+    {"source": "오마이뉴스 문화","url": "https://rss.ohmynews.com/rss/culture.xml"},
+    {"source": "시사인",         "url": "https://www.sisain.co.kr/rss/allArticle.xml"},
+    {"source": "헬스조선",       "url": "https://health.chosun.com/site/data/rss/rss.xml"},
+    {"source": "세계일보 라이프","url": "https://www.segye.com/Articles/RSSList/segye_culture.xml"},
 ]
+
+# ── 네이버 뉴스·블로그 검색 쿼리 (트렌드 발굴용) ──────────────────────
+# NAVER_CLIENT_ID/SECRET 있을 때만 동작.
+NAVER_DISCOVERY_QUERIES = [
+    "MZ트렌드", "힙스터", "라이프스타일 유행",
+    "요즘 유행", "신조어", "트렌드 2026",
+    "MZ세대 소비", "바이럴 챌린지",
+]
+NAVER_DISCOVERY_DISPLAY = 15  # 쿼리당 기사 수
+
+# ── Google Trends 급상승 씨앗 단어 ────────────────────────────────────
+GOOGLE_TREND_SEEDS = ["힙", "유행", "트렌드", "MZ", "라이프"]
+
+# ── 네이버 데이터랩 키워드 (검색량 추이 비교용, 보조 지표) ────────────
+KEYWORD_GROUPS = [
+    {"name": "AI",    "keywords": ["인공지능", "AI", "챗GPT", "클로드"]},
+    {"name": "런닝",  "keywords": ["러닝", "달리기", "마라톤", "런닝크루"]},
+    {"name": "다이어트","keywords": ["다이어트", "체중감량"]},
+    {"name": "힙",    "keywords": ["힙스터", "텍스트힙", "불교힙", "힙합"]},
+]
+
+YOUTUBE_QUERIES = [g["name"] for g in KEYWORD_GROUPS]
 
 # --- 점수 가중치 (규칙 기반) ---
 # 최종점수 = 네이버추세*W_NAVER + 유튜브속도*W_YT + RSS언급*W_RSS

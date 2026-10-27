@@ -1,4 +1,4 @@
-"""트렌드 수집 결과를 텔레그램으로 발송."""
+"""트렌드 발굴 결과를 텔레그램으로 발송."""
 from __future__ import annotations
 
 import os
@@ -28,92 +28,84 @@ def send(token: str, chat_id: str, text: str) -> None:
         raise RuntimeError(f"Telegram error: {resp}")
 
 
-def _bar(val: int, max_val: int, width: int = 10) -> str:
-    if max_val == 0:
-        return "○" * width
-    filled = round(val / max_val * width)
-    return "●" * filled + "○" * (width - filled)
+_CAT_ICON = {
+    "라이프스타일": "🛋",
+    "패션": "👗",
+    "음식": "🍽",
+    "테크": "💻",
+    "문화": "🎭",
+    "기타": "📌",
+}
 
 
 def build_message(
-    rows: list[dict],
-    entries: list[dict],
-    insight_list: list[dict],
-    ai_text: str | None,
+    trends: list[dict],
+    all_entries: list[dict],
     today: str,
     site_url: str,
 ) -> str:
     lines: list[str] = []
-
     lines.append(f"<b>트렌드 리포트 · {today}</b>")
-    lines.append(f"기사 {len(entries)}건 수집\n")
+    lines.append(f"기사 {len(all_entries)}건 분석\n")
 
-    # ── AI 인사이트 (있으면 최우선) ──────────────────────────────────
-    if ai_text:
-        lines.append("<b>AI 인사이트</b>")
-        for ln in ai_text.strip().splitlines()[:6]:
-            lines.append(ln)
-        lines.append("")
+    ai_trends = [t for t in trends if t.get("evidence")]
+    fallback   = [t for t in trends if not t.get("evidence")]
 
-    # ── 키워드별 인사이트 (헤드라인 근거) ────────────────────────────
-    active = [ins for ins in insight_list if ins.get("headlines")]
-    if active:
-        lines.append("<b>키워드 인사이트</b>")
-        for ins in active[:5]:
-            lines.append(f"<b>{ins['keyword']}</b> — {ins.get('summary','')}")
-            for h in ins["headlines"][:2]:
-                lines.append(f"  · {h[:50]}")
-        lines.append("")
+    if ai_trends:
+        lines.append("<b>오늘의 트렌드 TOP</b>")
+        for i, t in enumerate(ai_trends[:10], 1):
+            cat  = t.get("category", "기타")
+            icon = _CAT_ICON.get(cat, "📌")
+            name = t.get("name", "")
+            desc = t.get("desc", "")
+            evs  = t.get("evidence", [])
+            lines.append(f"{i}. {icon} <b>{name}</b> — {desc}")
+            for ev in evs[:1]:
+                lines.append(f"   · {ev[:50]}")
+    elif fallback:
+        lines.append("<b>자주 언급된 키워드</b>")
+        lines.append("<code>")
+        for t in fallback[:10]:
+            lines.append(f"• {t['name']:<8} {t.get('desc','')}")
+        lines.append("</code>")
+        lines.append("\n<i>* API 키 설정 시 트렌드 이름으로 발굴됩니다</i>")
 
-    # ── 키워드 랭킹 ──────────────────────────────────────────────────
-    max_rss = max((r["rss_mentions"] for r in rows), default=1) or 1
-    ranked = sorted(rows, key=lambda r: r["rss_mentions"], reverse=True)
-    lines.append("<b>키워드 순위</b>")
-    lines.append("<code>")
-    for i, r in enumerate(ranked[:8], 1):
-        bar = _bar(r["rss_mentions"], max_rss, 8)
-        lines.append(f"{i}. {r['keyword']:<6} {bar} {r['rss_mentions']}건")
-    lines.append("</code>")
     lines.append("")
-
-    # ── 주목 기사 3개 ────────────────────────────────────────────────
     lines.append("<b>주목 기사</b>")
-    for e in entries[:3]:
-        title = (e["title"] or "")[:48]
-        src = e["source"]
+    for e in all_entries[:3]:
+        title = (e.get("title") or "")[:50]
+        src   = e.get("source", "")
         lines.append(f"· [{src}] {title}")
-    lines.append("")
 
+    lines.append("")
     lines.append(f'<a href="{site_url}">전체 리포트 보기</a>')
     return "\n".join(lines)
 
 
 def main() -> None:
-    token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
+    token    = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+    chat_id  = os.environ.get("TELEGRAM_CHAT_ID", "")
     site_url = os.environ.get("SITE_URL", "https://trend-bot-ecru.vercel.app")
 
     if not token or not chat_id:
-        print("[telegram] TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID 없음 — 건너뜀")
+        print("[telegram] 환경변수 없음 — 건너뜀")
         return
 
     import config
-    from sources import rss_feeds
-    from pipeline import dedupe, score, insights
+    from sources import rss_feeds, naver_news, google_trends
+    from pipeline import dedupe, discover
     from datetime import date
 
     today = date.today().isoformat()
-    entries = rss_feeds.fetch_recent_entries(config.RSS_FEEDS, config.RSS_LOOKBACK_HOURS)
-    entries = dedupe.dedupe_entries(entries)
-    rss_mentions = rss_feeds.count_keyword_mentions(entries, config.KEYWORD_GROUPS)
-    rows = score.build_scores(config.KEYWORD_GROUPS, {}, {}, rss_mentions, config.SCORE_WEIGHTS)
-    rows.sort(key=lambda r: r["score"], reverse=True)
 
-    kw_articles = insights.map_keyword_articles(entries, config.KEYWORD_GROUPS)
-    insight_list = insights.rule_based_insights(rows, kw_articles)
-    ai_text = insights.ai_insights(rows, kw_articles, config.DEFAULT_AI_MODEL)
+    rss_entries   = rss_feeds.fetch_recent_entries(config.RSS_FEEDS, 48)
+    rss_entries   = dedupe.dedupe_entries(rss_entries)
+    naver_entries = naver_news.fetch_trend_articles(config.NAVER_DISCOVERY_QUERIES, config.NAVER_DISCOVERY_DISPLAY)
+    rising_map    = google_trends.fetch_rising_queries(config.GOOGLE_TREND_SEEDS)
+    all_entries   = dedupe.dedupe_entries(rss_entries + naver_entries)
+    trends        = discover.discover(all_entries, rising_map, config.DEFAULT_AI_MODEL)
 
-    msg = build_message(rows, entries, insight_list, ai_text, today, site_url)
+    msg = build_message(trends, all_entries, today, site_url)
     send(token, chat_id, msg)
     print(f"[telegram] 발송 완료 → {chat_id}")
 
