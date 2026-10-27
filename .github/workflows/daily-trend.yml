@@ -41,3 +41,10 @@ jobs:
           git add index.html
           git diff --cached --quiet || git commit -m "report: $(date +'%Y-%m-%d')"
           git push
+
+      - name: Send Telegram summary
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+        run: python telegram_notify.py
